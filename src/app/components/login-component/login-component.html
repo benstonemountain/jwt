@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>Belépés</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label>Felhasználónév:</label>
+      <input type="text" formControlName="username" />
+    </div>
+    <div>
+      <label>Jelszó:</label>
+      <input type="password" formControlName="password" />
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid">Belépés</button>
+  </form>
+
+  <p>Nincs még fiókod? <a routerLink="/register">Regisztrálj itt!</a></p>
+  @if(errorMessage) {
+
+  <p class="error">{{ errorMessage }}</p>
+  }
+</div>

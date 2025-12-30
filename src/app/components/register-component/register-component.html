@@ -1,0 +1,17 @@
+<div class="container">
+      <h2>Regisztráció</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div>
+          <label>Felhasználónév:</label>
+          <input type="text" formControlName="username">
+        </div>
+        <div>
+          <label>Jelszó:</label>
+          <input type="password" formControlName="password">
+        </div>
+        
+        <button type="submit" [disabled]="registerForm.invalid">Regisztráció</button>
+      </form>
+      
+      <p>Van már fiókod? <a routerLink="/login">Lépj be!</a></p>
+    </div>
