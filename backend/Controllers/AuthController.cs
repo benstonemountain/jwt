@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization; // Ezt add hozzá a using-okhoz a fájl tetején!
 
 [Route("api/[controller]")]
 [ApiController]
@@ -20,12 +21,18 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public IActionResult Register([FromBody] UserDto request)
     {
-        // Egyszerűsített regisztráció (jelszó hash-elés nélkül a példa kedvéért)
-        if (_users.Any(u => u.Username == request.Username))
-            return BadRequest("A felhasználó már létezik.");
+        {
+            if (_users.Any(u => u.Username == request.Username))
+                return Conflict("A felhasználó már létezik.");
 
-        _users.Add(request);
-        return Ok("Sikeres regisztráció!");
+            _users.Add(request);
+
+            // 🔑 TOKEN GENERÁLÁS REGISZTRÁCIÓ UTÁN
+            var token = GenerateToken(request);
+
+            return Ok(new { token });
+        }
+
     }
 
     [HttpPost("login")]
@@ -63,8 +70,13 @@ public class AuthController : ControllerBase
     }
 }
 
+
+
 public class UserDto
 {
+    [JsonPropertyName("username")] // Megmondjuk, hogy a JSON-ben "username" lesz
     public required string Username { get; set; }
+
+    [JsonPropertyName("password")] // Megmondjuk, hogy a JSON-ben "password" lesz
     public required string Password { get; set; }
 }
