@@ -12,7 +12,7 @@ export class AuthService {
   private router = inject(Router);
   private apiUrl = 'http://localhost:5264/api/auth'; // Backend URL
 
-  login(credentials: any) {
+  login(credentials: FormInfos) {
     return this.http
       .post<{ token: string }>(`${this.apiUrl}/login`, credentials)
       .pipe(
