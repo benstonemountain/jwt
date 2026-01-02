@@ -30,7 +30,7 @@ export class LoginComponent {
         const formInfos: FormInfos = { username, password };
         console.log(formInfos);
 
-        this.authService.register(formInfos).subscribe({
+        this.authService.login(formInfos).subscribe({
           next: () => {
             alert('Sikeres belépés!');
             this.router.navigate(['/home']);
