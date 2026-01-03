@@ -1,0 +1,18 @@
+<form class="creator-wrap" [formGroup]="noteForm">
+  <div class="title">
+    <label for="title-input">Cím: </label>
+    <input type="text" id="title-input" formControlName="title"/>
+  </div>
+  <div class="content">
+    <textarea name="" id="" placeholder="Ide írhat" formControlName="text"></textarea>
+  </div>
+  <div class="operations">
+    <div class="save-button">
+      <button class="button" (click)="onSave()">Mentés</button>
+    </div>
+    <div class="operation-buttons">
+      <button class="button">Szerkesztés</button>
+      <button class="button">Törlés</button>
+    </div>
+  </div>
+</form>

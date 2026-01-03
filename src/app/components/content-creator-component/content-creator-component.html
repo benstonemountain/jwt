@@ -3,23 +3,13 @@
 <button routerLink="/home">Vissza</button>
 
 <div class="add-note-button-wrap">
-  <button class="add-note-btn">Új bejegyzés</button>
+  <button class="add-note-btn" (click)="addNote()">Új bejegyzés</button>
 </div>
-<div class="creator-wrap">
-  <div class="title">
-    <label for="title-input">Cím: </label>
-    <input type="text" id="title-input" />
-  </div>
-  <div class="content">
-    <textarea name="" id="" placeholder="Ide írhat"></textarea>
-  </div>
-  <div class="operations">
-    <div class="save-button">
-      <button class="button">Mentés</button>
-    </div>
-    <div class="operation-buttons">
-      <button class="button">Szerkesztés</button>
-      <button class="button">Törlés</button>
-    </div>
-  </div>
+
+<div class="note-cards">
+  @for (nc of noteCards(); track noteCards()) {
+  <app-note-card-component></app-note-card-component>
+  } @empty {
+  <p class="empty-array-warning">Nincs bejegyzés</p>
+  }
 </div>
