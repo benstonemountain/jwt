@@ -10,3 +10,15 @@
   margin: 20px auto 0;
   text-align: center;
 }
+
+.btn {
+  cursor: pointer;
+  width: 100px;
+  padding: 2px 1px;
+}
+
+.disabled {
+  cursor:auto;
+}
+
+

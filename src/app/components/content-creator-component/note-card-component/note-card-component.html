@@ -1,18 +1,15 @@
 <form class="creator-wrap" [formGroup]="noteForm">
   <div class="title">
     <label for="title-input">Cím: </label>
-    <input type="text" id="title-input" formControlName="title"/>
+    <input type="text" id="title-input" formControlName="title" [value]="noteCard().title">
   </div>
   <div class="content">
-    <textarea name="" id="" placeholder="Ide írhat" formControlName="text"></textarea>
+    <textarea name="" id="" placeholder="Ide írhat" formControlName="text">{{noteCard().note}}</textarea>
   </div>
   <div class="operations">
-    <div class="save-button">
-      <button class="button" (click)="onSave()">Mentés</button>
-    </div>
     <div class="operation-buttons">
-      <button class="button">Szerkesztés</button>
-      <button class="button">Törlés</button>
+      <button class="btn save-btn" (click)="onSave()" [disabled]="!canEdit" [class.disabled]="!canEdit">Mentés</button>
+      <button class="btn delete-btn" (click)="onDelete()" [disabled]="!canEdit" [class.disabled]="!canEdit">Törlés</button>
     </div>
   </div>
 </form>

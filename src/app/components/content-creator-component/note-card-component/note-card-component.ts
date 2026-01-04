@@ -1,6 +1,7 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { NoteCard } from '../../../model/note-card';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-note-card-component',
@@ -9,25 +10,45 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './note-card-component.css',
 })
 export class NoteCardComponent {
-
-  // readonly noteCard = input<NoteCard>();
+  readonly noteCard = input.required<NoteCard>();
   formBuilder = inject(FormBuilder);
 
-  noteForm = this.formBuilder.group({
-    title: ['', [Validators.required]],
-    text: ['', [Validators.required]],
-  })
+  @Output() save = new EventEmitter<NoteCard>();
+  @Output() delete = new EventEmitter<NoteCard>();
 
-  onSave() {
-   const title = this.noteForm.value.title;
-   const noteByUser = this.noteForm.value.text;
+  authService = inject(AuthService);
 
-   if(title && noteByUser) {
-    console.log(title, noteByUser);
-    
-   }
+  get canEdit(): boolean {
+    return this.authService.isAdmin();
   }
 
+  noteForm = this.formBuilder.group({
+    title: [{ value: "", disabled: !this.canEdit }, [Validators.required]],
+    text: [{ value: "", disabled: !this.canEdit }, [Validators.required]],
+  });
 
+  ngOnInit() {
+    const note = this.noteCard();
+    this.noteForm.patchValue({
+      title: note?.title,
+      text: note?.note,
+    });
+  }
 
+  onSave() {
+    const title = this.noteForm.value.title;
+    const noteByUser = this.noteForm.value.text;
+
+    if (title && noteByUser) {
+      this.save.emit({
+        ...this.noteCard(),
+        title: title,
+        note: noteByUser,
+      });
+    }
+  }
+
+  onDelete() {
+    this.delete.emit(this.noteCard());
+  }
 }

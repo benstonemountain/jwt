@@ -3,12 +3,13 @@
 <button routerLink="/home">Vissza</button>
 
 <div class="add-note-button-wrap">
-  <button class="add-note-btn" (click)="addNote()">Új bejegyzés</button>
+  <button class="btn add-note-btn" (click)="addNote()" [disabled]="!isAddCardButtonEnabled" [class.disabled]="!isAddCardButtonEnabled">Új bejegyzés</button>
 </div>
 
 <div class="note-cards">
-  @for (nc of noteCards(); track noteCards()) {
-  <app-note-card-component></app-note-card-component>
+  @for (nc of noteCards(); track nc.id)
+  {
+  <app-note-card-component [noteCard]="nc" (save)="onSave($event)" (delete)="onDelete($event)"></app-note-card-component>
   } @empty {
   <p class="empty-array-warning">Nincs bejegyzés</p>
   }

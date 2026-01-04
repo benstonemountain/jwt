@@ -25,6 +25,11 @@ public class AuthController : ControllerBase
             if (_users.Any(u => u.Username == request.Username))
                 return Conflict("A felhasználó már létezik.");
 
+            // Ha username=admin, akkor a role admin, minden más esetben user
+            request.Role = request.Username.ToLower() == "admin"
+                  ? "admin"
+                  : "user";
+
             _users.Add(request);
 
             // 🔑 TOKEN GENERÁLÁS REGISZTRÁCIÓ UTÁN
@@ -42,6 +47,10 @@ public class AuthController : ControllerBase
         if (user == null)
             return Unauthorized("Hibás felhasználónév vagy jelszó.");
 
+        user.Role = user.Username.ToLower() == "admin"
+    ? "admin"
+    : "user";
+
         var token = GenerateToken(user);
         return Ok(new { token });
     }
@@ -54,9 +63,10 @@ public class AuthController : ControllerBase
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim("role", user.Role), //tokenbe tesszük a role-t
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
         var token = new JwtSecurityToken(
             issuer: jwtSettings["Issuer"],
@@ -79,4 +89,7 @@ public class UserDto
 
     [JsonPropertyName("password")] // Megmondjuk, hogy a JSON-ben "password" lesz
     public required string Password { get; set; }
+
+    [JsonPropertyName("role")]
+    public string Role { get; set; } = "user"; // alapértelmezett role
 }
