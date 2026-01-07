@@ -1,22 +1,24 @@
 <div class="login-site-wrap">
-  <h2>Belépés</h2>
-  <form class="form-container" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="username-wrap">
-      <label for="username">Felhasználónév:</label>
-      <input type="text" id="username" formControlName="username" />
-    </div>
-    <div class="password-wrap">
-      <label for="password">Jelszó:</label>
-      <input type="password" id="password" formControlName="password" />
-    </div>
+	<div class="login-box">
+		<h2>Belépés</h2>
+		<form class="form-container" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+			<div class="username-wrap">
+				<label for="username">Felhasználónév:</label>
+				<input type="text" id="username" formControlName="username" />
+			</div>
+			<div class="password-wrap">
+				<label for="password">Jelszó:</label>
+				<input type="password" id="password" formControlName="password" />
+			</div>
 
-    <div class="login-btn">
-      <button type="submit">Belépés</button>
-    </div>
-    <!-- [disabled]="loginForm.invalid" -->
-  </form>
+			<div class="login-btn">
+				<button type="submit">Belépés</button>
+			</div>
+			<!-- [disabled]="loginForm.invalid" -->
+		</form>
 
-  <div class="registration-panel">
-    <p>Nincs még fiókod? <a routerLink="/register">Regisztrálj itt!</a></p>
-  </div>
+		<div class="registration-panel">
+			<p>Nincs még fiókod? <a routerLink="/register">Regisztrálj itt!</a></p>
+		</div>
+	</div>
 </div>
