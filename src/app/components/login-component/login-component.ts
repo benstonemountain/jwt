@@ -14,7 +14,6 @@ export class LoginComponent {
   formBuilder = inject(FormBuilder);
   authService = inject(AuthService);
   router = inject(Router);
-  errorMessage = '';
 
   loginForm = this.formBuilder.group({
     username: ['', Validators.required],

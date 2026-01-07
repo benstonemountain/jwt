@@ -1,0 +1,57 @@
+.login-site-wrap {
+    border: 1px solid rgb(210, 210, 210);
+    width: 310px;
+    margin: 60px auto 10px;
+    padding: 2px;
+  
+box-shadow: 2px 4px 8px 1px rgba(0, 0, 0, 0.2)
+
+}
+
+h2 {
+    text-align: center;
+    margin: 10px 0 25px;
+}
+
+.username-wrap, .password-wrap {
+    /* border: 1px dotted black; */
+    height: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+.username-wrap label, .password-wrap label {
+    /* border: 1px solid green; */
+    width: 110px;
+    text-align: right;
+    font-size: 17px;
+
+}
+.username-wrap input, .password-wrap input {
+    width: 190px;
+    height: 100%;
+    font-size: 1rem;
+}
+
+.login-btn {
+    height: 25px;
+    margin: 30px 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-btn > button {
+    height: 100%;
+    width: 100px;
+}
+
+.registration-panel {
+    /* border: 1px solid black; */
+    width: 60%;
+    text-align: center;
+    margin: 30px auto 10px;
+}
