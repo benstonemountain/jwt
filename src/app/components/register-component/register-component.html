@@ -1,17 +1,26 @@
-<div class="container">
-      <h2>Regisztráció</h2>
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div>
-          <label>Felhasználónév:</label>
-          <input type="text" formControlName="username">
-        </div>
-        <div>
-          <label>Jelszó:</label>
-          <input type="password" formControlName="password">
-        </div>
-        
-        <button type="submit" [disabled]="registerForm.invalid">Regisztráció</button>
-      </form>
-      
-      <p>Van már fiókod? <a routerLink="/login">Lépj be!</a></p>
-    </div>
+<div class="registration-site-wrap">
+	<div class="registration-box">
+		<h2>Regisztráció</h2>
+		<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+			<div class="username-wrap">
+				<label for="username">Felhasználónév:</label>
+				<input type="text" id="username" formControlName="username" />
+			</div>
+			<div class="password-wrap">
+				<label for="password">Jelszó:</label>
+				<input type="password" id="password" formControlName="password" />
+			</div>
+
+			<div class="login-btn">
+				<button type="submit">Regisztráció</button>
+				<!-- [disabled]="registerForm.invalid" -->
+			</div>
+		</form>
+
+    		<div class="registration-panel">
+			<p>Van már fiókod? <a routerLink="/login">Lépj be!</a></p>
+		</div>
+
+
+	</div>
+</div>

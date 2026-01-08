@@ -1,0 +1,108 @@
+.registration-site-wrap {
+	width: 100%;
+	height: 100vh;
+	border-top: 1px solid transparent; /*hogy ne legyen margin collapsing*/
+	background: url(../../../../public/assets/sky2.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	/* background-position: 0 -100px; */
+	background-position: center 10%;
+}
+
+.registration-box {
+	width: 310px;
+	margin: 30px auto 10px;
+	padding: 2px;
+	background: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(3px);
+	-webkit-backdrop-filter: blur(1px);
+	border: 1px solid rgba(255, 255, 255, 0.35);
+	border-radius: 4px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+h2 {
+	text-align: center;
+	margin: 10px 0 25px;
+}
+
+.username-wrap,
+.password-wrap {
+	/* border: 1px dotted black; */
+	width: 300px;
+	height: 25px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.username-wrap label,
+.password-wrap label {
+	/* border: 1px solid green; */
+	width: 120px;
+	text-align: right;
+	font-size: 17px;
+}
+.username-wrap input,
+.password-wrap input {
+	width: 175px;
+	height: 100%;
+	font-size: 1rem;
+	border: 1px solid rgb(210, 230, 230);
+	border-radius: 4px;
+	outline: none;
+}
+
+.login-btn {
+	height: 30px;
+	margin: 30px 0 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.login-btn > button {
+	height: 100%;
+	width: 100px;
+   
+
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: 0.4px;
+	color: #0b3c5d;
+
+	background: linear-gradient(
+		135deg,
+		rgba(255, 255, 255, 0.45),
+		rgba(200, 225, 255, 0.35)
+	);
+
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	border-radius: 8px;
+
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+	cursor: pointer;
+	transition: all 0.25s ease;
+}
+
+.login-btn > button:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.login-btn > button:active {
+	transform: translateY(0);
+	box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18), inset 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.registration-panel {
+	/* border: 1px solid black; */
+	width: 40%;
+	text-align: center;
+	margin: 30px auto 10px;
+}
