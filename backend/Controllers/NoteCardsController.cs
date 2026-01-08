@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+//ITT vannak a noteCardokkal kapcsolatos http műveletek (GET, DELETE, PUT (mentéskor))
+//itt kell megadni (GET kivételével mindenhol), hogy a backend ellenőrizze le a frontendtől jövő (interceptor által szállított) tokent, hogy van-e joga a felhasználónak menteni vagy törölni  
+
 [Route("api/[controller]")]
 [ApiController]
 [Authorize] // 1. Minden metódushoz kell login
 public class NoteCardsController : ControllerBase
 {
-    // 🔹 Memóriában tárolt lista
+    //Memóriában tárolt lista
     private static readonly List<NoteCardDto> _noteCards = new();
 
     // GET: api/notecards
@@ -19,7 +22,7 @@ public class NoteCardsController : ControllerBase
 
 // PUT: api/notecards
 [HttpPut]
-[Authorize(Roles = "admin")] // 2. Csak admin menthet!
+[Authorize(Roles = "admin")] // 2. CSAK ADMIN MENTHET!
 public IActionResult AddOrUpdate([FromBody] NoteCardDto request)
 {
     // Keressük, van-e már ilyen ID
@@ -31,7 +34,7 @@ public IActionResult AddOrUpdate([FromBody] NoteCardDto request)
         existingNote.Title = request.Title;
         existingNote.Note = request.Note;
 
-        return Ok(existingNote); // visszaküldhetjük a frissített objektumot
+        return Ok(existingNote); 
     }
 
     // Ha nincs, létrehozzuk
@@ -42,7 +45,7 @@ public IActionResult AddOrUpdate([FromBody] NoteCardDto request)
 
     // DELETE: api/notecards/{id}
     [HttpDelete("{id}")]
-    [Authorize(Roles = "admin")] // 3. Csak admin törölhet!
+    [Authorize(Roles = "admin")] // CSAK ADMIN TÖRÖLHET!
     public IActionResult Delete(int id)
     {
         var noteCard = _noteCards.FirstOrDefault(n => n.Id == id);

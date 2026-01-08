@@ -46,9 +46,9 @@ export class NoteStateService {
       : Math.max(...cards.map((c) => c.id)) + 1;
   }
 
-    /*TÖRLÉS */
+    /*TÖRLÉS - kétféleképpen lehet:*/
   deleteNote(note: NoteCard) {
-  // ha úgy törlöm, hogy még nincs elmentve backendre
+  // 1. ha úgy törlöm, hogy még nincs elmentve backendre
   if (note.isNew) {
     this.noteCardEmitter.update((cards) =>
       cards.filter((c) => c.id !== note.id)
@@ -56,7 +56,7 @@ export class NoteStateService {
     return;
   }
 
-  // ha már backenden tárolt kártyát törlök 
+  // 2. ha már backenden tárolt kártyát törlök 
   this.noteDataService.deleteNoteCard(note.id).subscribe({
     next: () => {
       this.fetchAllNoteCards();

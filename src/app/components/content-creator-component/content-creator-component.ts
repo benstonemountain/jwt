@@ -25,6 +25,8 @@ export class ContentCreatorComponent {
 
   }
 
+  //amikor megnyomjuk az "Új bejegyzés" gombot, az értelemszerűen először csak frontend oldalon jelenik meg
+  //bakcendre még nincs elmentve; a backendre mentés csak a Mentés gomb megnyomásával lehet, ha admin az illető 
   addNote() {
     this.noteStateService.createFrontendNote();
     this.isAddCardButtonEnabled = false;

@@ -15,6 +15,7 @@ export class AuthService {
 
   private tokenKey = 'jwtToken';
 
+  //LOGIN jwt dekodolás nélkül
   // login(credentials: FormInfos) {
   //   return this.http
   //     .post<{ token: string }>(`${this.apiUrl}/login`, credentials)
@@ -25,6 +26,9 @@ export class AuthService {
   //     );
   // }
 
+  //loginkor fut le
+  // + jwt dekodólása --> ha megjön a jwt a localStorage-ba, akkor 
+  //kiírja console-ra a jwt tartalmát (emnber számára olvashatóan) 
   login(credentials: FormInfos) {
     return this.http
       .post<{ token: string }>(`${this.apiUrl}/login`, credentials)
@@ -56,6 +60,7 @@ export class AuthService {
       );
   }
 
+  //regisztrációkor fut le
   register(credentials: FormInfos) {
     return this.http
       .post<{ token: string }>(`${this.apiUrl}/register`, credentials)
@@ -67,13 +72,15 @@ export class AuthService {
   }
 
 
+  //Ez csak ahhoz kell, hogy meg tudjuk állapítani a tokenből, hogy 
+  // admin jogosultágot kaptunk-e vagy nem 
   getRole(): string | null {
     const token = localStorage.getItem(this.tokenKey);
     if (!token) return null;
 
     // decode base64 payload
+    //payload: a jwt középső részét (payload) veszi ki
     const payload = JSON.parse(atob(token.split('.')[1]));
-    console.log(payload.role);
     
     return payload.role;
   }
@@ -82,9 +89,6 @@ export class AuthService {
     return this.getRole() === 'admin';
   }
 
-  isUser(): boolean {
-    return this.getRole() === 'user';
-  }
 
   logout() {
     localStorage.removeItem(this.tokenKey);
