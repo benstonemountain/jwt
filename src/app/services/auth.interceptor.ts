@@ -1,10 +1,9 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('jwtToken'); // Figyelj a kulcsra!
 
   if (token) {
-    // Ha van token, klónozzuk a kérést és hozzáadjuk a fejlécet
     const clonedRequest = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
@@ -12,6 +11,5 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     });
     return next(clonedRequest);
   }
-
   return next(req);
 };

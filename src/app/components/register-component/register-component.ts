@@ -35,7 +35,6 @@ export class RegisterComponent {
 
         this.authService.register(formInfos).subscribe({
           next: () => {
-            alert('Sikeres regisztráció!');
             this.router.navigate(['/home']);
           },
           error: () => alert('Hiba történt a regisztrációkor.'),

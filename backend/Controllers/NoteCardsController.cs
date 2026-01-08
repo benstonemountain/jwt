@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
 [ApiController]
-// [Authorize]
+[Authorize] // 1. Minden metódushoz kell login
 public class NoteCardsController : ControllerBase
 {
     // 🔹 Memóriában tárolt lista
@@ -18,6 +19,7 @@ public class NoteCardsController : ControllerBase
 
 // PUT: api/notecards
 [HttpPut]
+[Authorize(Roles = "admin")] // 2. Csak admin menthet!
 public IActionResult AddOrUpdate([FromBody] NoteCardDto request)
 {
     // Keressük, van-e már ilyen ID
@@ -40,6 +42,7 @@ public IActionResult AddOrUpdate([FromBody] NoteCardDto request)
 
     // DELETE: api/notecards/{id}
     [HttpDelete("{id}")]
+    [Authorize(Roles = "admin")] // 3. Csak admin törölhet!
     public IActionResult Delete(int id)
     {
         var noteCard = _noteCards.FirstOrDefault(n => n.Id == id);

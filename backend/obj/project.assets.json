@@ -790,24 +790,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Bence\\.nuget\\packages\\": {}
+    "C:\\Users\\kohegyi.bence.IAD\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\AngularProjects\\jwt\\backend\\backend.csproj",
+      "projectUniqueName": "C:\\dev\\PRACTICE\\jwt\\backend\\backend.csproj",
       "projectName": "backend",
-      "projectPath": "C:\\AngularProjects\\jwt\\backend\\backend.csproj",
-      "packagesPath": "C:\\Users\\Bence\\.nuget\\packages\\",
-      "outputPath": "C:\\AngularProjects\\jwt\\backend\\obj\\",
+      "projectPath": "C:\\dev\\PRACTICE\\jwt\\backend\\backend.csproj",
+      "packagesPath": "C:\\Users\\kohegyi.bence.IAD\\.nuget\\packages\\",
+      "outputPath": "C:\\dev\\PRACTICE\\jwt\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Bence\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\kohegyi.bence.IAD\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "\\\\iad-fs\\shares$\\C2\\Public\\Nuget\\": {},
+        "https://10.14.0.142:8443/Devops/Tudasmenedzsment/_packaging/HDF_Integration%40Local/nuget/v3/index.json": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -863,7 +867,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

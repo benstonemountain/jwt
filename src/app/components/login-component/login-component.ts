@@ -30,8 +30,7 @@ export class LoginComponent {
         console.log(formInfos);
 
         this.authService.login(formInfos).subscribe({
-          next: () => {
-            alert('Sikeres belépés!');         
+          next: () => {        
             this.router.navigate(['/home']);
           },
           error: () => alert('Hiba.'),
