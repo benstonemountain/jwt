@@ -12,7 +12,7 @@ export class AuthService {
 	private router = inject(Router);
 	private apiUrl = 'http://localhost:5264/api/auth';
 
-	// Mivel a token a sütiben van, csak a szerepkört tároljuk a UI-hoz
+	// Mivel a token a sütiben van, csak a szerepkört tároljuk a localStorage-ben a UI-hoz
 	private roleKey = 'userRole';
 
 	/**
