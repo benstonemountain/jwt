@@ -38,7 +38,7 @@ public class AuthController : ControllerBase
     public IActionResult Login([FromBody] UserDto request)
     {
         var user = _users.FirstOrDefault(u => u.Username == request.Username && u.Password == request.Password);
-        
+
         if (user == null)
             return Unauthorized("Hibás felhasználónév vagy jelszó.");
 
@@ -53,6 +53,15 @@ public class AuthController : ControllerBase
         // Itt már NEM küldjük vissza a tokent a JSON-ben!
         return Ok(new { message = "Sikeres belépés", userRole = user.Role });
     }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("jwtToken");
+        return Ok(new { message = "Sikeres kijelentkezés" });
+    }
+
+
 
     // Segédmetódus a süti összeállításához, hogy ne kelljen kétszer leírni
     private void AppendJwtCookie(string token)
@@ -92,6 +101,8 @@ public class AuthController : ControllerBase
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
+
+
 
 public class UserDto
 {
