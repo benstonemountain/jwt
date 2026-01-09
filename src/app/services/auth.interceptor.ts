@@ -1,21 +1,16 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('jwtToken');
+  // Már nem keressük a tokent a localStorage-ban, mert a sütit a böngésző kezeli.
+  // A lényeg, hogy minden kérést klónozunk és beállítjuk a withCredentials-t.
+  
+  const clonedRequest = req.clone({
+    withCredentials: true
+  });
 
-  if (token) {
-    const clonedRequest = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    return next(clonedRequest);
-  }
-  return next(req);
+  return next(clonedRequest);
 };
 
-//INTERCEPTOR
-//MINDEN http kérés előtt elküldi a tokent a backendnek, hogy az le tudja ellenőrizni a jogosultságokat 
-//jelen app-ban ezt úgy lehet tesztelni, hogy ha kikommentezzük ezt az interceptor file-t, létrehozunk egy noteCard-ot és megpróbáljuk elmenteni, akkor hibát fog dobni, mert 
-//az interceptor nem tudta elküldeni a backendnek a tokent, így az nem fogja engedni a htttp műveletet (save)
-//FONTOS! Ehhez a backendet is úgy kell beállítani  
+//INTERCEPTOR (cookie)
+//Nincs Authorization header: a Backend most már a sütiből olvassa a tokent (amit a Program.cs-ben beállítottunk az OnMessageReceived eseménynél) --> ezért nem kell manuálisan belegyömöszölni a fejlécbe a Bearer <token>-t
+//withCredentials: true --> ez mondja meg az Angularnak, hogy "Kérlek, minden kérésnél, ami a backendre megy, engedd, hogy a böngésző automatikusan hozzácsapja a sütiket is!". Enélkül a süti nem menne el, és a szerver 401 Unauthorized hibát adna.
