@@ -1,7 +1,19 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+# .NET fordítási mappák
+bin/
+obj/
+
+# Egyedi fájlok
+*.exe
+*.dll
+*.pdb
+
+# Angular specifikus (ha eddig nem volt benne)
+dist/
+.angular/
+
 # Compiled output
-/dist
 /tmp
 /out-tsc
 /bazel-out
