@@ -57,7 +57,13 @@ public class AuthController : ControllerBase
     [HttpPost("logout")]
     public IActionResult Logout()
     {
-        Response.Cookies.Delete("jwtToken");
+        // Ez törli a sütit a kliens böngészőjéből
+        Response.Cookies.Delete("jwtToken", new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = false, // Localhoston false, élesben true
+            SameSite = SameSiteMode.Lax
+        });
         return Ok(new { message = "Sikeres kijelentkezés" });
     }
 
