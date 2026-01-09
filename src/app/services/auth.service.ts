@@ -3,103 +3,107 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { FormInfos } from '../components/register-component/register-component';
-import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
 export class AuthService {
-  private http = inject(HttpClient);
-  private router = inject(Router);
-  private apiUrl = 'http://localhost:5264/api/auth'; // Backend URL
+	private http = inject(HttpClient);
+	private router = inject(Router);
+	private apiUrl = 'http://localhost:5264/api/auth';
 
-  private tokenKey = 'jwtToken';
+	// Mivel a token a sütiben van, csak a szerepkört tároljuk a UI-hoz
+	private roleKey = 'userRole';
 
-  //LOGIN jwt dekodolás nélkül
-  // login(credentials: FormInfos) {
-  //   return this.http
-  //     .post<{ token: string }>(`${this.apiUrl}/login`, credentials)
-  //     .pipe(
-  //       tap((response) => {
-  //         localStorage.setItem('token', response.token);
-  //       })
-  //     );
-  // }
+	/**
+	 * LOGIN
+	 * Fontos: withCredentials: true kell, hogy a böngésző elmentse a sütit!
+	 */
+	login(credentials: FormInfos) {
+		return this.http
+			.post<{ message: string; userRole: string }>(
+				`${this.apiUrl}/login`,
+				credentials,
+				{
+					withCredentials: true, // KÖTELEZŐ a sütik kezeléséhez
+				},
+			)
+			.pipe(
+				tap((response) => {
+					// A tokent NEM mentjük, mert nincs a válaszban (sütiben utazik)
+					// Csak a role-t mentjük el, hogy tudjuk, mit mutassunk a menüben
+					localStorage.setItem(this.roleKey, response.userRole);
 
-  //loginkor fut le
-  // + jwt dekodólása --> ha megjön a jwt a localStorage-ba, akkor 
-  //kiírja console-ra a jwt tartalmát (emnber számára olvashatóan) 
-  login(credentials: FormInfos) {
-    return this.http
-      .post<{ token: string }>(`${this.apiUrl}/login`, credentials)
-      .pipe(
-        tap((response) => {
-          // 1. Elmentjük a nyers tokent
-          localStorage.setItem(this.tokenKey, response.token);
+					// Opcionálisan elmenthetjük a user adatait is, ha a backend küldi
+					localStorage.setItem(
+						'currentUser',
+						JSON.stringify({ id: credentials.username }),
+					);
 
-          try {
-            // 2. Dekódoljuk a tokent
-            const decodedToken: any = jwtDecode(response.token);
-            console.log('A dekódolt token tartalma:', decodedToken);
+					console.log('Sikeres belépés. A token HttpOnly sütiben tárolódik.');
+				}),
+			);
+	}
 
-            // 3. Összeállítjuk a felhasználói objektumot
-            const user = {
-              id: decodedToken.sub,
-              email: decodedToken.email,
-              role: decodedToken.role,
-              token: response.token,
-            };
+	/**
+	 * REGISTER
+	 */
+	register(credentials: FormInfos) {
+		return this.http
+			.post<{ message: string; userRole: string }>(
+				`${this.apiUrl}/register`,
+				credentials,
+				{
+					withCredentials: true,
+				},
+			)
+			.pipe(
+				tap((response) => {
+					localStorage.setItem(this.roleKey, response.userRole);
+				}),
+			);
+	}
 
-            // 4. Elmentjük a komplett user objektumot stringként a localStorage-ba
-            // Így a szerepkör (role) is fixen megmarad a böngészőben
-            localStorage.setItem('currentUser', JSON.stringify(user));
-          } catch (error) {
-            console.error('Hiba a token dekódolásakor:', error);
-          }
-        })
-      );
-  }
+	/**
+	 * SZEREPKÖR LEKÉRÉSE
+	 * Most már nem a tokenből bányásszuk ki, hanem a mentett stringből
+	 */
+	getRole(): string | null {
+		return localStorage.getItem(this.roleKey);
+	}
 
-  //regisztrációkor fut le
-  register(credentials: FormInfos) {
-    return this.http
-      .post<{ token: string }>(`${this.apiUrl}/register`, credentials)
-      .pipe(
-        tap((response) => {
-          localStorage.setItem(this.tokenKey, response.token);
-        })
-      );
-  }
+	isAdmin(): boolean {
+		return this.getRole() === 'admin';
+	}
 
+	/**
+	 * LOGOUT
+	 *
+	 */
+	logout() {
+		// 1. Szólunk a szervernek, hogy semmisítse meg a sütit
+		this.http
+			.post(`${this.apiUrl}/logout`, {}, { withCredentials: true })
+			.subscribe({
+				next: () => {
+					// 2. Ha a szerver végzett, mi is kitakarítunk a localStorage-ból
+					localStorage.clear();
+					this.router.navigate(['/login']);
+				},
+				error: (err) => {
+					console.error('Hiba a kijelentkezéskor', err);
+					// Hiba esetén is érdemes takarítani és elnavigálni
+					localStorage.clear();
+					this.router.navigate(['/login']);
+				},
+			});
+	}
 
-  //Ez csak ahhoz kell, hogy meg tudjuk állapítani a tokenből, hogy 
-  // admin jogosultágot kaptunk-e vagy nem 
-  getRole(): string | null {
-    const token = localStorage.getItem(this.tokenKey);
-    if (!token) return null;
-
-    // decode base64 payload
-    //payload: a jwt középső részét (payload) veszi ki
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    
-    return payload.role;
-  }
-
-  isAdmin(): boolean {
-    return this.getRole() === 'admin';
-  }
-
-
-  logout() {
-    localStorage.removeItem(this.tokenKey);
-    this.router.navigate(['/login']);
-  }
-
-  getToken() {
-   return localStorage.getItem(this.tokenKey);
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.getToken(); // True, ha van token
-  }
+	/**
+	 * BEJELENTKEZÉS ÁLLAPOTA
+	 * Mivel a sütit nem látjuk, arra hagyatkozunk, hogy van-e mentett role
+	 */
+	isLoggedIn(): boolean {
+		return !!this.getRole();
+	}
 }
